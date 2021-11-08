@@ -12,13 +12,13 @@ const {
     DATABASE_URL,
 } = process.env;
 
-let databaseConfig = new Pool({
+let databaseConfig = {
     user: DB_USER,
     password: DB_PASSWORD,
     host: DB_HOST,
     port: DB_PORT,
     database: DB_DATABASE,
-});
+};
 
 if (NODE_ENV === 'prod') {
     databaseConfig = {
