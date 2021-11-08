@@ -1,15 +1,16 @@
 /* eslint-disable no-undef */
 import '../src/setup.js';
 import supertest from 'supertest';
+import faker from 'faker';
 import app from '../src/app.js';
 import connection from '../src/database/database.js';
 
 const validBody = {
-    name: 'Iron Man',
-    price: 2000,
-    stock: 10,
+    name: faker.commerce.productName(),
+    price: Number(faker.commerce.price()).toFixed(0),
+    stock: Number(faker.commerce.price()).toFixed(0),
     images: [
-        'https://a-static.mlcdn.com.br/574x431/funko-pop-iron-man-i-am-iron-man-px-exclusive-580-avengers-endgame-vingadores-ultimato-marvel/geekfanaticosoficial/8922175671/74405752c750d680e7c6bf9531e6d57c.jpg',
+        'https://static3.tcdn.com.br/img/img_prod/460977/pre_venda_pop_homem_de_ferro_iron_man_i_am_iron_man_vingadores_ultimato_avengers_endgame_exclusivo_5_54509_1_20200116165752.jpg',
         'https://static3.tcdn.com.br/img/img_prod/460977/pre_venda_pop_homem_de_ferro_iron_man_i_am_iron_man_vingadores_ultimato_avengers_endgame_exclusivo_5_54509_1_20200116165752.jpg',
     ],
 };
