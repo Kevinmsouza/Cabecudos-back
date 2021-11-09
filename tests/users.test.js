@@ -22,7 +22,7 @@ describe('POST /sign-up', () => {
         expect(result.status).toEqual(201);
     });
 
-    it('return 409 for email already in use', async () => {
+    it('return 409 for email/cpf already in use', async () => {
         const user = fakeUserFactory();
         await userFactory(user);
         const result = await supertest(app)

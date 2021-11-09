@@ -8,7 +8,7 @@ function validateUser(user) {
         birthdate: joi.string().isoDate().required(),
         email: joi.string().pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).required(),
         password: joi.string().min(4).required(),
-        phone: joi.string().pattern(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$/).required(),
+        phone: joi.string().min(10).max(21).required(),
     });
     return !!userSchema.validate(user).error;
 }
