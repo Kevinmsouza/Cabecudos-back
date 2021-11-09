@@ -5,7 +5,6 @@ export default async function signOut(req, res) {
 
     try {
         await connection.query('DELETE FROM sessions WHERE token = $1', [token]);
-        console.log("foi")
         res.sendStatus(200);
     } catch (error) {
         // eslint-disable-next-line no-console
