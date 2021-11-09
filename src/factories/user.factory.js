@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+
 import faker from 'faker';
 import connection from '../database/database.js';
 
@@ -20,21 +21,22 @@ async function userFactory(body) {
     }
 }
 
+
 function fakeUserFactory(restriction) {
     const validUser = {
-        name: 'Joaozinho',
-        email: 'Joazinho.gostoso@hotmail.com',
-        cpf: '12312312310',
-        phone: '+55 (48) 98818-1818',
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+        cpf: faker.datatype.number({ min: 10000000000, max: 99999999999 }).toString(),
+        phone: faker.phone.phoneNumber(),
         birthdate: '1901-11-11',
-        password: '123123',
-        image: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+        password: faker.internet.password(4),
+        imageUrl: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
     };
     if (restriction === 'underAge') {
         delete validUser.birthdate;
         const underAgeUser = {
             ...validUser,
-            birthdate: faker.date.past(3),
+            birthdate: '2010-11-11',
         };
         return underAgeUser;
     }
@@ -65,3 +67,4 @@ export {
     userFactory,
     fakeUserFactory,
 };
+
