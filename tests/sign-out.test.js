@@ -4,12 +4,14 @@ import supertest from 'supertest';
 import faker from 'faker';
 import app from '../src/app.js';
 import connection from '../src/database/database.js';
+import { fakeUserFactory } from '../src/factories/user.factory.js';
 
 const fakeToken = faker.datatype.uuid();
 
 beforeAll(async () => {
+    const fakeUser = fakeUserFactory();
     const result = await connection.query(`INSERT INTO users (name, email, cpf, phone, birth_date, password) 
-    VALUES ('test', 'test@test.com', '03873636389', '45998022472', '04/08/1994', '123456') RETURNING ID;`);
+    VALUES ('${fakeUser.name}', '${fakeUser.email}', '${fakeUser.cpf}', '${fakeUser.phone}', '${fakeUser.birthdate}', '${fakeUser.password}') RETURNING ID;`);
     await connection.query('INSERT INTO SESSIONS (user_id, token) VALUES ($1, $2);', [result.rows[0].id, fakeToken]);
 });
 
