@@ -1,25 +1,34 @@
+/* eslint-disable object-curly-newline */
 import bcrypt from 'bcrypt';
 import connection from '../database/database.js';
-import { validateUser, checkUnderage } from '../validation/user.js';
+import { validateUser, checkUnderage, validateUserImage } from '../validation/user.js';
+import { userFactory } from '../factories/user.factory.js';
 
-async function register(req, res) {
-    // eslint-disable-next-line object-curly-newline
-    const { name, cpf, phone, birthdate, imageUrl, email, password } = req.body;
-    const { errors } = validateUser.validate(req.body);
-    const majority = checkUnderage(birthdate);
-    if (errors) return res.sendStatus(400);
-    if (!majority) return res.status(403).send('Compras online são permitidas apenas para +18');
+async function checkInUse(column, value, res) {
     try {
-        const hashedPassword = bcrypt.hashSync(password, 10);
-        const existentEmail = await connection.query('SELECT * FROM users WHERE email = $1', [email]);
-        if (existentEmail.rows.length) return res.status(409).send('Este email já foi utilizado!');
-        await connection.query('INSERT INTO users (name, email, cpf, phone, birth_date, password, image) VALUES ($1, $2, $3, $4, $5, $6, $7', [name, email, cpf, phone, birthdate, hashedPassword, (imageUrl || null)]);
-        return res.sendStatus(201);
+        const existent = await connection.query(`SELECT * FROM users WHERE ${column} = $1`, [value]);
+        if (existent.rows.length) return true;
+        return false;
     } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
         return res.sendStatus(500);
     }
+}
+
+async function register(req, res) {
+    const { name, phone, birthdate, imageUrl, cpf, email, password } = req.body;
+    if (imageUrl) validateUserImage(imageUrl);
+    if (validateUser({ name, email, cpf, phone, birthdate, password })) return res.sendStatus(400);
+    if (checkUnderage(birthdate)) return res.status(403).send('Compras online são permitidas apenas para +18');
+    const existentCpf = await checkInUse('cpf', cpf);
+    const existentEmail = await checkInUse('email', email);
+    if (existentCpf) return res.status(409).send('Este CPF já foi utilizado!');
+    if (existentEmail) return res.status(409).send('Este email já foi utilizado!');
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const newUser = await userFactory({ ...req.body, password: hashedPassword });
+    if (!newUser) return res.sendStatus(500);
+    return res.sendStatus(201);
 }
 
 async function login(req, res) {
