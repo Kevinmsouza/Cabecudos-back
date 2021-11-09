@@ -1,9 +1,11 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+
 import faker from 'faker';
 import connection from '../database/database.js';
 
 faker.locale = 'pt_BR';
 
-export async function userFactory(body) {
+async function userFactory(body) {
     try {
         // eslint-disable-next-line object-curly-newline
         const { name, email, cpf, phone, birthdate, password, imageUrl } = body;
@@ -19,7 +21,8 @@ export async function userFactory(body) {
     }
 }
 
-export function fakeUserFactory(restriction) {
+
+function fakeUserFactory(restriction) {
     const validUser = {
         name: faker.name.findName(),
         email: faker.internet.email(),
@@ -59,3 +62,9 @@ export function fakeUserFactory(restriction) {
     }
     return validUser;
 }
+
+export {
+    userFactory,
+    fakeUserFactory,
+};
+
