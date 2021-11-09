@@ -18,9 +18,7 @@ async function checkInUse(column, value, res) {
 
 async function register(req, res) {
     const { name, phone, birthdate, imageUrl, cpf, email, password } = req.body;
-    // let { phone } = req.body;
-    // phone = phone.replace(/ /g, '').replace(/[()]/g, '').replace(/-/g, '');
-    if (imageUrl) validateUserImage(imageUrl);
+    if (imageUrl && validateUserImage(imageUrl)) return res.sendStatus(400);
     if (validateUser({ name, email, cpf, phone, birthdate, password })) return res.sendStatus(400);
     if (checkUnderage(birthdate)) return res.status(403).send('Compras online são permitidas apenas para +18');
     const existentCpf = await checkInUse('cpf', cpf);

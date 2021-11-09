@@ -27,7 +27,7 @@ export function fakeUserFactory(restriction) {
         phone: faker.phone.phoneNumber(),
         birthdate: '1901-11-11',
         password: faker.internet.password(4),
-        image: faker.image.imageUrl(),
+        imageUrl: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
     };
     if (restriction === 'underAge') {
         delete validUser.birthdate;
