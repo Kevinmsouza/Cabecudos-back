@@ -1,8 +1,9 @@
+import joi from 'joi';
+
 const validateAdress = data => {
-    const schema = Joi.object({
-        name: Joi.string().min(1).max(20).regex(/^[A-Za-z0-9\s]+$/).required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().min(1).required()
+    const schema = joi.object({
+        adress: joi.string().min(5).regex(/\d/).regex(/[a-zA-Z]/).required(),
+        postal_code: joi.string().length(8).required(),
     }).unknown();
     return schema.validate(data).error;
 };

@@ -36,6 +36,13 @@ async function postAdress(req, res) {
 
     try {
         if (validateAdress(req.body)) return res.sendStatus(400);
+        await connection.query(`
+        INSERT INTO 
+            adresses 
+            (user_id, adress, postal_code, city, uf_id
+        VALUES
+            ($1, $2, $3, 'toledo', 15)
+        ;`, [userId, adress, postalCode]);
         res.sendStatus(201);
     } catch (error) {
         // eslint-disable-next-line no-console
