@@ -30,8 +30,7 @@ async function postAdress(req, res) {
         userId,
         adress,
         postalCode,
-        city,
-        ufId,
+        comp,
     } = req.body;
 
     try {
@@ -39,10 +38,10 @@ async function postAdress(req, res) {
         await connection.query(`
         INSERT INTO 
             adresses 
-            (user_id, adress, postal_code, city, uf_id
+            (user_id, adress, postal_code, comp)
         VALUES
-            ($1, $2, $3, 'toledo', 15)
-        ;`, [userId, adress, postalCode]);
+            ($1, $2, $3, $4)
+        ;`, [userId, adress, postalCode, comp || null]);
         res.sendStatus(201);
     } catch (error) {
         // eslint-disable-next-line no-console
