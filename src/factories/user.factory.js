@@ -21,7 +21,6 @@ async function userFactory(body) {
     }
 }
 
-
 function fakeUserFactory(restriction) {
     const validUser = {
         name: faker.name.findName(),
@@ -67,4 +66,3 @@ export {
     userFactory,
     fakeUserFactory,
 };
-
