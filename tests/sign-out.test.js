@@ -16,8 +16,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    await connection.query('DELETE FROM sessions;');
-    await connection.query('DELETE FROM users;');
+    await connection.query('TRUNCATE users CASCADE;');
     connection.end();
 });
 
