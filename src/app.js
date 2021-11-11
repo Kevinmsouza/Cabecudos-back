@@ -20,6 +20,7 @@ app.delete('/sign-out', checkToken, signOut);
 
 // PRODUCTS
 app.get('/products', getProducts);
+app.get('/products/:id', getProducts);
 app.post('/products', validateSU, postProducts);
 
 export default app;
