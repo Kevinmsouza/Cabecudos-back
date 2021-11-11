@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-const validateAddres = data => {
+const validateAddress = data => {
     const schema = joi.object({
         // eslint-disable-next-line newline-per-chained-call
         address: joi.string().min(3).regex(/\d/).regex(/[a-zA-Z]/).required(),
@@ -12,5 +12,5 @@ const validateAddres = data => {
 
 export {
     // eslint-disable-next-line import/prefer-default-export
-    validateAddres,
+    validateAddress,
 };
