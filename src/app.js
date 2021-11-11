@@ -25,6 +25,6 @@ app.post('/products', validateSU, postProducts);
 // ADDRESSES
 app.get('/addresses', checkToken, getAddresses);
 app.post('/addresses', checkToken, postAddress);
-app.delete('/addresses', checkToken, removeAddress);
+app.delete('/addresses/:id', checkToken, removeAddress);
 
 export default app;

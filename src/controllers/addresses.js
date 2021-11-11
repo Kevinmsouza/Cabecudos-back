@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-console */
 /* eslint-disable consistent-return */
 import connection from '../database/database.js';
@@ -39,10 +40,13 @@ async function postAddress(req, res) {
 }
 
 async function removeAddress(req, res) {
-    const { addressId } = req.body;
+    const { id } = req.params;
     try {
-        if (!addressId) return res.sendStatus(404);
-        await connection.query('DELETE FROM addresses WHERE id = $1', [addressId]);
+        if (!Number.isInteger(Number(id)) || id <= 0) {
+            return res.sendStatus(400);
+        }
+        // eslint-disable-next-line radix
+        await connection.query('DELETE FROM addresses WHERE id = $1', [parseInt(id)]);
         res.sendStatus(200);
     } catch (error) {
         console.log(error);
