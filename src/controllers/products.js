@@ -2,6 +2,7 @@ import connection from '../database/database.js';
 import productFactory from '../factories/product.factory.js';
 import { validateProduct } from '../validation/product.js';
 
+// eslint-disable-next-line consistent-return
 async function getProducts(req, res) {
     let queryText = `
         SELECT
@@ -17,6 +18,7 @@ async function getProducts(req, res) {
     `;
     const querryArray = [];
     if (req.params.id) {
+        if (!Number.isInteger(req.params.id) || req.params.id <= 0) return res.sendStatus(400);
         queryText += ' WHERE products.id = $1;';
         querryArray.push(req.params.id);
     } else {

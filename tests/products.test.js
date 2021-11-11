@@ -76,3 +76,10 @@ describe('GET /products', () => {
         expect(result.body).toHaveLength(0);
     });
 });
+
+describe('GET /products/:id', () => {
+    it('returns 400 for invalid id', async () => {
+        const result = await supertest(app).get('/products/a');
+        expect(result.status).toEqual(400);
+    });
+});
