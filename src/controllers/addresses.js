@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 import connection from '../database/database.js';
 import { addressFactory } from '../factories/addresses.factory.js';
-import { validateAddress } from '../validation/addresses.js';
+import { validateAddres } from '../validation/addresses.js';
 
 async function getAddresses(req, res) {
     const token = req.headers.authorization?.split('Bearer ')[1];
@@ -29,7 +29,7 @@ async function getAddresses(req, res) {
 
 async function postAddress(req, res) {
     try {
-        if (validateAddress(req.body)) return res.sendStatus(400);
+        if (validateAddres(req.body)) return res.sendStatus(400);
         await addressFactory(req.body);
         res.sendStatus(201);
     } catch (error) {
