@@ -64,6 +64,7 @@ async function login(req, res) {
                 await connection.query('INSERT INTO sessions (user_id, token) VALUES ($1, $2)', [user.id, token]);
                 return res.status(201).send({ ...user, token });
             }
+            delete user.password;
             return res.status(201).send({ ...user, token: activeSession.rows[0].token });
         }
         return res.status(404).send('Email e/ou senha estão incorretos!');
