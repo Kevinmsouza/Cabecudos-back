@@ -7,8 +7,8 @@ import connection from '../src/database/database.js';
 import { fakeUserFactory, userFactory } from '../src/factories/user.factory.js';
 
 afterAll(async () => {
-    // await connection.query('DELETE FROM users;');
-    // await connection.query('DELETE FROM sessions;');
+    await connection.query('DELETE FROM users;');
+    await connection.query('DELETE FROM sessions;');
     connection.end();
 });
 
