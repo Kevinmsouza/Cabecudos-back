@@ -19,7 +19,7 @@ async function getAddresses(req, res) {
             ON 
                 sessions.user_id = addresses.user_id
             WHERE 
-                token = $1;`,
+                sessions.token = $1;`,
         [token]);
         res.status(200).send(addresses.rows);
     } catch (error) {
