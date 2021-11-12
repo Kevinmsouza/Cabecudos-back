@@ -6,6 +6,7 @@ import validateSU from './middleware/validateSU.js';
 import checkToken from './middleware/auth.js';
 import signOut from './controllers/signOut.js';
 import { getAddresses, postAddress, removeAddress } from './controllers/addresses.js';
+import { getPurchases } from './controllers/purchases.js';
 
 const app = express();
 app.use(express.json());
@@ -27,5 +28,8 @@ app.post('/products', validateSU, postProducts);
 app.get('/addresses', checkToken, getAddresses);
 app.post('/addresses', checkToken, postAddress);
 app.delete('/addresses/:id', checkToken, removeAddress);
+
+// PURCHASES
+app.get('/purchases/:userId', checkToken, getPurchases);
 
 export default app;
