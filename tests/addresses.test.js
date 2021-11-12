@@ -74,23 +74,22 @@ describe('GET addresses', () => {
 
 describe('DELETE from /addresses', () => {
     it('returns status 401 for invalid token', async () => {
-        const result = await supertest(app).delete('/addresses');
+        const result = await supertest(app).delete('/addresses/id');
         expect(result.status).toEqual(401);
     });
 
-    it('returns status 404 for invalid address id', async () => {
+    it('returns status 400 for invalid id', async () => {
         const result = await supertest(app)
-            .delete('/addresses')
+            .delete('/addresses/invalidId')
             .set('Authorization', `Bearer ${fakeToken}`);
-        expect(result.status).toEqual(404);
+        expect(result.status).toEqual(400);
     });
 
     it('returns status 200 for successful address removal', async () => {
         const validBody = fakeAddressFactory(userId, '');
         const addressId = await addressFactory(validBody);
         const result = await supertest(app)
-            .delete('/addresses')
-            .send({ addressId: addressId.rows[0].id })
+            .delete(`/addresses/${addressId.rows[0].id}`)
             .set('Authorization', `Bearer ${fakeToken}`);
         expect(result.status).toEqual(200);
     });
