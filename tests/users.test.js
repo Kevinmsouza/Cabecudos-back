@@ -6,7 +6,7 @@ import connection from '../src/database/database.js';
 import { fakeUserFactory, userFactory } from '../src/factories/user.factory.js';
 
 afterAll(async () => {
-    await connection.end();
+    connection.end();
 });
 
 describe('POST /sign-up', () => {
