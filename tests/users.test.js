@@ -1,11 +1,14 @@
 /* eslint-disable no-undef */
 import '../src/setup.js';
+import faker from 'faker';
 import supertest from 'supertest';
 import app from '../src/app.js';
 import connection from '../src/database/database.js';
 import { fakeUserFactory, userFactory } from '../src/factories/user.factory.js';
 
 afterAll(async () => {
+    // await connection.query('DELETE FROM users;');
+    // await connection.query('DELETE FROM sessions;');
     connection.end();
 });
 
@@ -53,5 +56,28 @@ describe('POST /sign-up', () => {
             .post('/sign-up')
             .send(emptyImageUser);
         expect(result.status).toEqual(201);
+    });
+});
+
+describe('POST /sign-in', () => {
+    it('return 201 for user logged-in succesfully', async () => {
+        const mockUser = fakeUserFactory();
+        await supertest(app).post('/sign-up').send(mockUser);
+        const { email, password } = mockUser;
+        const result = await supertest(app)
+            .post('/sign-in')
+            .send({ email, password });
+        expect(result.status).toEqual(201);
+    });
+
+    it('return 404 for logging with wrong password', async () => {
+        const mockUser = fakeUserFactory();
+        await supertest(app).post('/sign-up').send(mockUser);
+        const { email } = mockUser;
+        const password = faker.internet.password(4);
+        const result = await supertest(app)
+            .post('/sign-in')
+            .send({ email, password });
+        expect(result.status).toEqual(404);
     });
 });
