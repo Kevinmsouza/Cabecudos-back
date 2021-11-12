@@ -10,7 +10,8 @@ function validateUser(user) {
         password: joi.string().min(4).required(),
         phone: joi.string().min(10).max(21).required(),
     });
-    return !!userSchema.validate(user).error;
+    if (userSchema.validate(user).error) return userSchema.validate(user).error.details[0].context.key; // eslint-disable-line max-len
+    return false;
 }
 
 function validateUserImage(imageUrl) {
