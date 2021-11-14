@@ -15,7 +15,22 @@ async function postCart(req, res) {
     return res.sendStatus(201);
 }
 
+async function getCart(req, res) {
+    const token = req.headers.authorization?.split('Bearer ')[1];
+    const result = await connection.query(`
+        SELECT 
+            carts.id,
+            carts.user_id,
+            carts.cart_text
+        FROM sessions
+            JOIN carts 
+                ON sessions.user_id = carts.user_id
+        WHERE token = $1
+    ;`, [token]);
+    return res.send(result.rows);
+}
+
 export {
-    // eslint-disable-next-line import/prefer-default-export
     postCart,
+    getCart,
 };
