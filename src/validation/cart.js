@@ -1,7 +1,7 @@
 import joi from 'joi';
 
 function validateCart(cart) {
-    const cartSchema = joi.string().pattern(/^\[\]$/).required();
+    const cartSchema = joi.string().pattern(/^\[.*\]$/).required();
     return !!cartSchema.validate(cart).error;
 }
 
