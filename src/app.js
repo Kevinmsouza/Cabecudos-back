@@ -7,6 +7,7 @@ import checkToken from './middleware/auth.js';
 import signOut from './controllers/signOut.js';
 import { getAddresses, postAddress, removeAddress } from './controllers/addresses.js';
 import { getPurchases } from './controllers/purchases.js';
+import { postCart } from './controllers/carts.js';
 
 const app = express();
 app.use(express.json());
@@ -33,5 +34,8 @@ app.delete('/addresses/:id', checkToken, removeAddress);
 
 // PURCHASES
 app.get('/purchases/:userId', checkToken, getPurchases);
+
+// CARTS
+app.post('/carts', checkToken, postCart);
 
 export default app;

@@ -1,8 +1,8 @@
+/* eslint-disable consistent-return */
 import connection from '../database/database.js';
 import productFactory from '../factories/product.factory.js';
 import { validateProduct } from '../validation/product.js';
 
-// eslint-disable-next-line consistent-return
 async function getProducts(req, res) {
     let queryText = `
         SELECT
