@@ -19,7 +19,9 @@ async function getAddresses(req, res) {
             ON 
                 sessions.user_id = addresses.user_id
             WHERE 
-                sessions.token = $1;`,
+                sessions.token = $1 AND
+                deleted_at IS NULL
+                ;`,
         [token]);
         res.status(200).send(addresses.rows);
     } catch (error) {
@@ -46,7 +48,12 @@ async function removeAddress(req, res) {
             return res.sendStatus(400);
         }
         // eslint-disable-next-line radix
-        await connection.query('DELETE FROM addresses WHERE id = $1', [parseInt(id)]);
+        await connection.query(`
+        UPDATE 
+            addresses 
+        SET deleted_at = NOW()
+        WHERE 
+            id = $1;`, [parseInt(id)]);
         res.sendStatus(200);
     } catch (error) {
         console.log(error);
