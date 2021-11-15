@@ -57,7 +57,7 @@ async function postPurchase(req, res) {
         // Register the purchase
         await connection.query(`
             INSERT INTO purchases
-            (user_id, total_price, address_id, date)
+            (user_id, total_price, adress_id, date)
             VALUES ($1, $2, $3, NOW())
         ;`, [userId, totalPrice, addressId]);
 
