@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
 /* eslint-disable radix */
 /* eslint-disable no-console */
@@ -43,7 +45,7 @@ async function postPurchase(req, res) {
         // Validate stock disponibility while calculates total price
         const newStock = [];
         let totalPrice = 0;
-        cart.forEach(async (product) => {
+        for (const product of cart) {
             const checkStock = await connection.query(`
                 SELECT stock, price 
                 FROM products 
@@ -51,7 +53,7 @@ async function postPurchase(req, res) {
             ;`, [product.id]);
             newStock.push(checkStock.rows[0].stock - product.qtd);
             totalPrice += checkStock.rows[0].price * product.qtd;
-        });
+        }
         if (newStock.findIndex((n) => n < 0) >= 0) return res.sendStatus(400);
 
         // Register the purchase
