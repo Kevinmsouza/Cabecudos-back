@@ -72,6 +72,9 @@ async function postPurchase(req, res) {
             ;`, [product.id, newStock[i]]);
         });
 
+        // Cleaning user cart
+        await connection.query("UPDATE carts SET cart_text = '[]' WHERE user_id = $1;", [userId]);
+
         res.sendStatus(200);
     } catch (error) {
         console.log(error);
