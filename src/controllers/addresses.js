@@ -51,9 +51,9 @@ async function removeAddress(req, res) {
         await connection.query(`
         UPDATE 
             addresses 
-        SET deleted_at = $1
+        SET deleted_at = NOW()
         WHERE 
-            id = $2;`, [now(), DateparseInt(id)]);
+            id = $1;`, [parseInt(id)]);
         res.sendStatus(200);
     } catch (error) {
         console.log(error);
