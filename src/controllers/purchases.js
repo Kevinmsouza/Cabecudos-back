@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable radix */
 /* eslint-disable no-console */
 import connection from '../database/database.js';
