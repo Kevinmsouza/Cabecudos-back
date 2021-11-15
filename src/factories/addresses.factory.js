@@ -20,7 +20,7 @@ function fakeAddressFactory(userId, restriction) {
     const validAddress = {
         userId,
         address: faker.address.streetAddress(),
-        postalCode: faker.address.zipCode().replace('-', ''),
+        postalCode: faker.address.zipCode(),
         comp: faker.address.secondaryAddress(),
     };
     if (restriction === 'address') {
