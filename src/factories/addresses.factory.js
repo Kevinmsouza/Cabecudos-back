@@ -1,9 +1,11 @@
+/* eslint-disable object-curly-newline */
+
 import faker from 'faker';
 import connection from '../database/database.js';
 
 faker.locale = 'pt_BR';
 
-async function addressFactory({userId, address, postalCode, comp}) {
+async function addressFactory({ userId, address, postalCode, comp }) {
     // eslint-disable-next-line no-undef
     return connection.query(`
     INSERT INTO 
@@ -18,7 +20,7 @@ function fakeAddressFactory(userId, restriction) {
     const validAddress = {
         userId,
         address: faker.address.streetAddress(),
-        postalCode: faker.address.zipCode().replace('-', ''),
+        postalCode: faker.address.zipCode(),
         comp: faker.address.secondaryAddress(),
     };
     if (restriction === 'address') {
