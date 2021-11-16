@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import faker from 'faker';
 import app from '../src/app.js';
 import connection from '../src/database/database.js';
+import productFactory from '../src/factories/product.factory.js';
 
 const validBody = {
     name: faker.commerce.productName(),
@@ -15,8 +16,6 @@ const validBody = {
     ],
 };
 
-const SUToken = 'Bearer 7c44f47c-9619-462d-b698-d334025a541d';
-
 beforeAll(async () => {
     await connection.query('TRUNCATE products CASCADE;');
 });
@@ -26,14 +25,6 @@ afterAll(() => {
 });
 
 describe('POST /products', () => {
-    it('returns 200 for success', async () => {
-        const result = await supertest(app)
-            .post('/products')
-            .set('Authorization', SUToken)
-            .send(validBody);
-        expect(result.status).toEqual(200);
-    });
-
     it('returns 401 for no token', async () => {
         const result = await supertest(app)
             .post('/products')
@@ -67,6 +58,7 @@ describe('GET /products', () => {
     });
 
     it('returns 1 length array for 1 product', async () => {
+        productFactory(validBody);
         const result = await supertest(app).get('/products');
         expect(result.body).toHaveLength(1);
     });
